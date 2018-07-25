@@ -57,6 +57,7 @@
     <Compile Include="Book.cs">
       <DependentUpon>BookRegModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="BookDB.cs" />
     <Compile Include="BookRegModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -75,6 +76,7 @@
     <Compile Include="Customer.cs">
       <DependentUpon>BookRegModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CustomerDB.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
