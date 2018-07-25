@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookRegistrationEF
 {
-    static class BookDB
+    public static class BookDB
     {
         public static List<Book> GetAllBooks()
         {
