@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BookRegistrationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="ISBN" Type="char" MaxLength="13" Nullable="false" />
+          <Property Name="Price" Type="smallmoney" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="ISBN" Type="char" MaxLength="13" Nullable="false" />
+          <Property Name="RegDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Registrat__Custo__276EDEB3">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Registration">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registrati__ISBN__286302EC">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="Registration">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookRegistrationModelStoreContainer">
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Registrat__Custo__276EDEB3" Association="Self.FK__Registrat__Custo__276EDEB3">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Registration" EntitySet="Registration" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registrati__ISBN__286302EC" Association="Self.FK__Registrati__ISBN__286302EC">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Registration" EntitySet="Registration" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookRegistrationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="ISBN" Type="String" MaxLength="13" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Registration" Relationship="Self.FK__Registrati__ISBN__286302EC" FromRole="Book" ToRole="Registration" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Registration" Relationship="Self.FK__Registrat__Custo__276EDEB3" FromRole="Customer" ToRole="Registration" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="ISBN" Type="String" MaxLength="13" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="RegDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Book" Relationship="Self.FK__Registrati__ISBN__286302EC" FromRole="Registration" ToRole="Book" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Registrat__Custo__276EDEB3" FromRole="Registration" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK__Registrati__ISBN__286302EC">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="Registration">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Registrat__Custo__276EDEB3">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Registration">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Book" EntityType="Self.Book" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" />
+          <AssociationSet Name="FK__Registrati__ISBN__286302EC" Association="Self.FK__Registrati__ISBN__286302EC">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Registration" EntitySet="Registration" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Registrat__Custo__276EDEB3" Association="Self.FK__Registrat__Custo__276EDEB3">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Registration" EntitySet="Registration" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookRegistrationModelStoreContainer" CdmEntityContainer="BookContext">
+          <EntitySetMapping Name="Book">
+            <EntityTypeMapping TypeName="BookRegistrationModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="BookRegistrationModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registration">
+            <EntityTypeMapping TypeName="BookRegistrationModel.Registration">
+              <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
